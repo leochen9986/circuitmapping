@@ -1,0 +1,22 @@
+train: C:/Users/winte/OneDrive/upwork/Ayesh-circuit/Ayeshdata/train/images
+val: C:/Users/winte/OneDrive/upwork/Ayesh-circuit/Ayeshdata/valid/images
+test: C:/Users/winte/OneDrive/upwork/Ayesh-circuit/Ayeshdata/test/images
+
+nc: 14
+names:  [
+    "oval",
+    "dotted_rectangle",
+    "rectangle",
+    "triangle",
+    "circle",
+    "capacitor",
+    "choke",
+    "resistor",
+    "transistor",
+    "ground",
+    "power",
+    "led",
+    "diode",
+    "OR",
+]
+
