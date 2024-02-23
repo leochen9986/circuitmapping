@@ -11,5 +11,8 @@ ground
 power
 led
 diode
-ocal
-logicgate
+OR
+switch
+coaxial
+mosfet
+crystal

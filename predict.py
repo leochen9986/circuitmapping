@@ -1,16 +1,24 @@
 from ultralytics import YOLO
+import os
+import shutil
 
 # Load a model
 model = YOLO('best.pt')  # pretrained YOLOv8n model
 
-# Run batched inference on a list of images
-results = model(['3A70C2C4-5591-4F4D-8C4C-E73649B65F94.jpg'])  # return a list of Results objects
+# Define input and output directories
+input_dir = r'C:\Users\winte\OneDrive\upwork\Ayesh-circuit\Ayeshdata\valid\images'
+output_dir = 'output'
 
-# Process results list
-for result in results:
-    boxes = result.boxes  # Boxes object for bounding box outputs
-    masks = result.masks  # Masks object for segmentation masks outputs
-    keypoints = result.keypoints  # Keypoints object for pose outputs
-    probs = result.probs  # Probs object for classification outputs
-    result.show()  # display to screen
-    result.save(filename='result4.jpg')  # save to disk
+# Create the output directory if it doesn't exist
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# List all image files in the input directory
+image_files = [f for f in os.listdir(input_dir) if f.endswith(('.jpg', '.png', '.jpeg'))]
+
+# Run batched inference on the list of images
+results = model([os.path.join(input_dir, img) for img in image_files])
+
+# Process results list and save the output images
+for img, result in zip(image_files, results):
+    result.save(filename=os.path.join(output_dir, img))  # save to output directory

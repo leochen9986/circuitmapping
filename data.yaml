@@ -2,7 +2,7 @@ train: C:/Users/winte/OneDrive/upwork/Ayesh-circuit/Ayeshdata/train/images
 val: C:/Users/winte/OneDrive/upwork/Ayesh-circuit/Ayeshdata/valid/images
 test: C:/Users/winte/OneDrive/upwork/Ayesh-circuit/Ayeshdata/test/images
 
-nc: 14
+nc: 18
 names:  [
     "oval",
     "dotted_rectangle",
@@ -18,5 +18,9 @@ names:  [
     "led",
     "diode",
     "OR",
+    "switch",
+    "coaxial",
+    "mosfet",
+    "crystal"
 ]
 

@@ -1,0 +1,14 @@
+oval
+dotted_rectangle
+rectangle
+triangle
+circle
+capacitor
+choke
+resistor
+transistor
+ground
+power
+led
+diode
+OR
