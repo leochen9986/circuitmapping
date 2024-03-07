@@ -9,6 +9,7 @@
 ```
 pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
 pip install ultralytics
+pip install easyocr
 ```
 
 3) Run training
@@ -21,4 +22,10 @@ python train.py
 
 ```
 python predict.py
+```
+
+4) Run line detection (Milestone2)
+
+```
+python line_detection.py path_to_your_image.jpg
 ```
