@@ -18,7 +18,7 @@ The dataset are in the folders train, test , val
 python train.py
 ```
 
-3) Run test prediction
+3) Run test prediction (Object Detection)
 
 ```
 python predict.py
