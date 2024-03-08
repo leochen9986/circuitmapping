@@ -6,7 +6,7 @@ import shutil
 model = YOLO('best.pt')  # pretrained YOLOv8n model
 
 # Define input and output directories
-input_dir = r'C:\Users\winte\OneDrive\upwork\Ayesh-circuit\Ayeshdata\valid\images'
+input_dir = 'images'
 output_dir = 'output'
 
 # Create the output directory if it doesn't exist
