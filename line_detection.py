@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 import easyocr
 from ultralytics import YOLO
 from PIL import Image, ImageChops
-import os
+
 import sys
 import math
 import yaml
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Load class names from data.yaml
 class_names = []
