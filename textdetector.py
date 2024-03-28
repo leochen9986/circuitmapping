@@ -44,6 +44,7 @@ for item in data["Elements"]:
         item["name"] = ocr_result[0][0][1][0]
         
         cv2.putText(draw_img, str(item["name"]), (item["bounding_box"][0],item["bounding_box"][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
+        item["text_box"] = (x1,y1,x2,y2)
     else:
         item["name"] = ""
         
@@ -58,8 +59,10 @@ for item in data["Elements"]:
                 contain_item["name"] = ocr_result[0][0][1][0]
                 
                 cv2.putText(draw_img, str(item["name"]), (contain_item["bounding_box"][0],contain_item["bounding_box"][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
+                contain_item["text_box"] = (x1,y1,x2,y2)
             else:
-                contain_item["name"] = ""            
+                contain_item["name"] = ""      
+                
     
     
 
