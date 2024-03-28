@@ -1,0 +1,583 @@
+{
+    "Elements": [
+        {
+            "ID": 1,
+            "shape": "dotted_rectangle",
+            "score": 0.9301040172576904,
+            "connections": [
+                "4",
+                "3",
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                598,
+                38,
+                632,
+                167
+            ],
+            "ContainedElement": [],
+            "name": ""
+        },
+        {
+            "ID": 2,
+            "shape": "dotted_rectangle",
+            "score": 0.9263336658477783,
+            "connections": [
+                "4",
+                "3",
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                728,
+                38,
+                762,
+                167
+            ],
+            "ContainedElement": [],
+            "name": ""
+        },
+        {
+            "ID": 3,
+            "shape": "dotted_rectangle",
+            "score": 0.9209818840026855,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                9,
+                6,
+                109,
+                198
+            ],
+            "ContainedElement": [
+                {
+                    "ID": 3,
+                    "shape": "triangle",
+                    "score": 0.9209818840026855,
+                    "bounding_box": [
+                        18,
+                        25,
+                        91,
+                        176
+                    ],
+                    "name": ""
+                }
+            ],
+            "name": ""
+        },
+        {
+            "ID": 4,
+            "shape": "triangle",
+            "score": 0.9189821481704712,
+            "connections": [],
+            "bounding_box": [
+                18,
+                25,
+                91,
+                176
+            ],
+            "ContainedElement": [],
+            "name": ""
+        },
+        {
+            "ID": 5,
+            "shape": "rectangle",
+            "score": 0.9173985719680786,
+            "connections": [
+                "4",
+                "3",
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                443,
+                17,
+                503,
+                185
+            ],
+            "ContainedElement": [],
+            "name": "Level Shifter"
+        },
+        {
+            "ID": 6,
+            "shape": "rectangle",
+            "score": 0.8934164643287659,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                859,
+                18,
+                893,
+                184
+            ],
+            "ContainedElement": [],
+            "name": ""
+        },
+        {
+            "ID": 7,
+            "shape": "oval",
+            "score": 0.8791869282722473,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                229,
+                36,
+                288,
+                74
+            ],
+            "ContainedElement": [],
+            "name": "M1"
+        },
+        {
+            "ID": 8,
+            "shape": "oval",
+            "score": 0.8730981349945068,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                229,
+                129,
+                287,
+                164
+            ],
+            "ContainedElement": [],
+            "name": "M1"
+        },
+        {
+            "ID": 9,
+            "shape": "oval",
+            "score": 0.8713659048080444,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                125,
+                49,
+                183,
+                86
+            ],
+            "ContainedElement": [],
+            "name": "BO"
+        },
+        {
+            "ID": 10,
+            "shape": "oval",
+            "score": 0.8680626153945923,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                124,
+                115,
+                183,
+                150
+            ],
+            "ContainedElement": [],
+            "name": "BO"
+        },
+        {
+            "ID": 11,
+            "shape": "oval",
+            "score": 0.8634911179542542,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                332,
+                129,
+                391,
+                164
+            ],
+            "ContainedElement": [],
+            "name": "M2"
+        },
+        {
+            "ID": 12,
+            "shape": "oval",
+            "score": 0.8607200980186462,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                521,
+                129,
+                581,
+                164
+            ],
+            "ContainedElement": [],
+            "name": "M3"
+        },
+        {
+            "ID": 13,
+            "shape": "oval",
+            "score": 0.8573037385940552,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                331,
+                36,
+                392,
+                74
+            ],
+            "ContainedElement": [],
+            "name": "M2"
+        },
+        {
+            "ID": 14,
+            "shape": "oval",
+            "score": 0.8540422320365906,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                781,
+                37,
+                841,
+                74
+            ],
+            "ContainedElement": [],
+            "name": "M5"
+        },
+        {
+            "ID": 15,
+            "shape": "oval",
+            "score": 0.8499581813812256,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                521,
+                37,
+                581,
+                74
+            ],
+            "ContainedElement": [],
+            "name": "M3"
+        },
+        {
+            "ID": 16,
+            "shape": "oval",
+            "score": 0.8497603535652161,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                782,
+                130,
+                841,
+                164
+            ],
+            "ContainedElement": [],
+            "name": "M5"
+        },
+        {
+            "ID": 17,
+            "shape": "oval",
+            "score": 0.8479779362678528,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                651,
+                129,
+                711,
+                164
+            ],
+            "ContainedElement": [],
+            "name": "M4"
+        },
+        {
+            "ID": 18,
+            "shape": "oval",
+            "score": 0.8412379622459412,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                651,
+                37,
+                711,
+                74
+            ],
+            "ContainedElement": [],
+            "name": "M4"
+        },
+        {
+            "ID": 19,
+            "shape": "capacitor",
+            "score": 0.8360134959220886,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                410,
+                35,
+                430,
+                76
+            ],
+            "ContainedElement": [],
+            "name": "-"
+        },
+        {
+            "ID": 20,
+            "shape": "capacitor",
+            "score": 0.7443162202835083,
+            "connections": [
+                "2",
+                "1"
+            ],
+            "bounding_box": [
+                411,
+                127,
+                429,
+                165
+            ],
+            "ContainedElement": [],
+            "name": ""
+        }
+    ],
+    "Connections": [
+        {
+            "from": {
+                "elementGUID": 6,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 16,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 2,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 16,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 2,
+                "elementConnectionPoint": "2"
+            },
+            "to": {
+                "elementGUID": 17,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 1,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 17,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 1,
+                "elementConnectionPoint": "2"
+            },
+            "to": {
+                "elementGUID": 12,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 5,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 12,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 5,
+                "elementConnectionPoint": "2"
+            },
+            "to": {
+                "elementGUID": 20,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 11,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 20,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 8,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 11,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 8,
+                "elementConnectionPoint": "2"
+            },
+            "to": {
+                "elementGUID": 10,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 3,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 10,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 3,
+                "elementConnectionPoint": "2"
+            },
+            "to": {
+                "elementGUID": 9,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 6,
+                "elementConnectionPoint": "2"
+            },
+            "to": {
+                "elementGUID": 14,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 2,
+                "elementConnectionPoint": "3"
+            },
+            "to": {
+                "elementGUID": 14,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 2,
+                "elementConnectionPoint": "4"
+            },
+            "to": {
+                "elementGUID": 18,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 1,
+                "elementConnectionPoint": "3"
+            },
+            "to": {
+                "elementGUID": 18,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 5,
+                "elementConnectionPoint": "3"
+            },
+            "to": {
+                "elementGUID": 15,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 5,
+                "elementConnectionPoint": "4"
+            },
+            "to": {
+                "elementGUID": 19,
+                "elementConnectionPoint": "1"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 13,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 19,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 7,
+                "elementConnectionPoint": "1"
+            },
+            "to": {
+                "elementGUID": 13,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 1,
+                "elementConnectionPoint": "4"
+            },
+            "to": {
+                "elementGUID": 15,
+                "elementConnectionPoint": "2"
+            }
+        },
+        {
+            "from": {
+                "elementGUID": 7,
+                "elementConnectionPoint": "2"
+            },
+            "to": {
+                "elementGUID": 9,
+                "elementConnectionPoint": "2"
+            }
+        }
+    ],
+    "image_path": "40E44C76-3B47-4470-966F-670381DE8E06.jpg"
+}
