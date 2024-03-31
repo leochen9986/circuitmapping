@@ -53,17 +53,17 @@ def draw_contour_tips(img, contours):
 def find_contour_endpoints(contours):
     contour_endpoints = []
     for cnt in contours:
-        # Assuming the contour is a numpy array with shape (n_points, 1, 2)
-        cnt = cnt.squeeze()
-        leftmost = cnt[cnt[:, 0].argmin()].tolist()
-        rightmost = cnt[cnt[:, 0].argmax()].tolist()
-        topmost = cnt[cnt[:, 1].argmin()].tolist()
-        bottommost = cnt[cnt[:, 1].argmax()].tolist()
-        endpoints = [leftmost, rightmost, topmost, bottommost]
-        contour_endpoints.append((cnt, endpoints))
-    
-    
-    
+        if len(cnt) > 0:  # Check if the contour has any points
+            cnt = cnt.squeeze()  # Remove single-dimensional entries from the shape of an array
+            # Ensure cnt is 2-dimensional
+            if cnt.ndim == 1:
+                cnt = cnt.reshape(-1, 2)
+            leftmost = cnt[cnt[:, 0].argmin()].tolist()
+            rightmost = cnt[cnt[:, 0].argmax()].tolist()
+            topmost = cnt[cnt[:, 1].argmin()].tolist()
+            bottommost = cnt[cnt[:, 1].argmax()].tolist()
+            endpoints = [leftmost, rightmost, topmost, bottommost]
+            contour_endpoints.append((cnt, endpoints))
     return contour_endpoints
 
 def get_connections(results,input_image):
