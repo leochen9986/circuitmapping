@@ -65,11 +65,13 @@ for item in data["Elements"]:
                 contain_item["name"] = combined_string.strip()
                 
                 cv2.putText(draw_img, str(contain_item["name"]), (contain_item["bounding_box"][0],contain_item["bounding_box"][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
-                
+                 
             else:
-                contain_item["name"] = ""          
+                contain_item["name"] = "" 
+            cv2.rectangle(img, (contain_item["bounding_box"][0], contain_item["bounding_box"][1]), (contain_item["bounding_box"][2], contain_item["bounding_box"][3]), (255, 255, 255), -1) 
+                
             
-            cv2.rectangle(img, (x1, y1), (x2, y2), (255, 255, 255), -1)                 
+            
     
     
     
@@ -99,16 +101,39 @@ for item in data["Elements"]:
         item["name"] = combined_string.strip()
         
         cv2.putText(draw_img, str(item["name"]), (item["bounding_box"][0],item["bounding_box"][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
+        
     else:
         item["name"] = ""
-                
-    
-    
+        
+    cv2.rectangle(img, (item["bounding_box"][0], item["bounding_box"][1]), (item["bounding_box"][2], item["bounding_box"][3]), (255, 255, 255), -1) 
+        
+
+###RUN Overall OCR for those which are not detected yet
+ocr_result = ocr.ocr(img, cls=True)
+
+#Collect them into proper list of dict
+final_ocr_result = []
+if ocr_result[0]:  
+    for ocritem in ocr_result[0]:
+        x1, y1 = int(ocritem[0][0][0]) , int(ocritem[0][0][1])
+        x2, y2 = int(ocritem[0][2][0]) , int(ocritem[0][2][1])
+        text = ocritem[1][0]
+        cv2.rectangle(draw_img, (x1,y1),(x2,y2), (0, 0, 0), 1)
+        final_ocr_result.append({"text":text,"position":(x1, y1,x2, y2)})
+
+sorted_final_ocr_result = sorted(final_ocr_result, key=lambda x: (x['position'][1], x['position'][0]))
+
+for item in data["Elements"]:
+    if item["name"] == "":
+        for ocritem in  sorted_final_ocr_result:
+            if (item["bounding_box"][0]+(item["bounding_box"][2]-item["bounding_box"][0])/2) in range(ocritem['position'][0],ocritem['position'][2]):
+                item["name"]+=ocritem["text"]
+                item["name"]+=" "
+    item["name"] = item["name"].strip()            
+    cv2.putText(draw_img, str(item["name"]), (item["bounding_box"][0],item["bounding_box"][1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
 
 json_string = json.dumps(data, indent=4)
 with open("shape+boundingbox+text.json", "w") as json_file:
     json_file.write(json_string)
     
 cv2.imwrite("shape+boundingbox+text.jpg",draw_img)
-
-
