@@ -97,14 +97,12 @@ def get_connections(results,input_image):
     # Apply the mask to the original image to make everything except the cropped shapes white
     result_image = np.where(mask == 255, 255, img)
     
-    img1 = Image.open(input_image)
-    result_image_bgr = cv2.cvtColor(result_image, cv2.COLOR_RGB2BGR)
-    cv2.imwrite("result1.png", result_image_bgr)
-    result1 = Image.open("result1.png")
-    
+    img1 = Image.open(input_image).convert('RGB')
+    result_image_rgb = cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB)
+    result1 = Image.fromarray(result_image_rgb)
+
     diff1 = ImageChops.subtract(result1, img1)
-    # diff2 = ImageChops.subtract(result_image, img)
-    #
+
     diff1.save("result.png")
     
     
