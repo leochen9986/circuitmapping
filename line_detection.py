@@ -52,18 +52,45 @@ def draw_contour_tips(img, contours):
 
 def find_contour_endpoints(contours):
     contour_endpoints = []
+
     for cnt in contours:
-        if len(cnt) > 0:  # Check if the contour has any points
-            cnt = cnt.squeeze()  # Remove single-dimensional entries from the shape of an array
-            # Ensure cnt is 2-dimensional
-            if cnt.ndim == 1:
-                cnt = cnt.reshape(-1, 2)
-            leftmost = cnt[cnt[:, 0].argmin()].tolist()
-            rightmost = cnt[cnt[:, 0].argmax()].tolist()
-            topmost = cnt[cnt[:, 1].argmin()].tolist()
-            bottommost = cnt[cnt[:, 1].argmax()].tolist()
-            endpoints = [leftmost, rightmost, topmost, bottommost]
-            contour_endpoints.append((cnt, endpoints))
+        # Simplify contour to reduce the number of points
+        epsilon = 0.005 * cv2.arcLength(cnt, True)
+        approx = cv2.approxPolyDP(cnt, epsilon, True)
+
+        # If the contour is a line, take the first and last points as endpoints
+        if len(approx) == 2:
+            # A line segment; the endpoints are obvious
+            endpoints = [tuple(approx[0][0]), tuple(approx[-1][0])]
+        else:
+            # Proceed with the convex hull approach for more complex shapes
+            hull = cv2.convexHull(approx, returnPoints=False)
+            defects = cv2.convexityDefects(approx, hull)
+            
+            if defects is not None:
+                endpoints = []
+                for i in range(defects.shape[0]):
+                    s, e, _, d = defects[i, 0]
+                    start = tuple(approx[s][0])
+                    end = tuple(approx[e][0])
+
+                    # Use a threshold to filter out small defects
+                    if d > 1000:
+                        if start not in endpoints:
+                            endpoints.append(start)
+                        if end not in endpoints:
+                            endpoints.append(end)
+            else:
+                # For a straight line or a convex shape, take the furthest points as endpoints
+                leftmost = tuple(approx[approx[:, :, 0].argmin()][0])
+                rightmost = tuple(approx[approx[:, :, 0].argmax()][0])
+                topmost = tuple(approx[approx[:, :, 1].argmin()][0])
+                bottommost = tuple(approx[approx[:, :, 1].argmax()][0])
+                endpoints = [leftmost, rightmost, topmost, bottommost]
+
+        # Add the contour and its endpoints to the list
+        contour_endpoints.append((cnt, endpoints))
+
     return contour_endpoints
 
 def get_connections(results,input_image):
@@ -74,6 +101,7 @@ def get_connections(results,input_image):
     # Initialize a mask with all white pixels
     mask = np.ones((height, width, 3), dtype=np.uint8) * 255
     
+    #offset = 2
     # Process results for the first image (assuming there's only one image in the batch)
     for result in results:
         boxes = result.boxes  # Extract bounding box coordinates
@@ -90,8 +118,24 @@ def get_connections(results,input_image):
     
                 # Get the class name from class_names list
                 class_name = class_names[int(class_id)]
+                
+                contained_elements = []
+                # Check if bounding box is within another bounding box
+                for other_box, other_class_id in zip(boxes.xyxy, boxes.cls):
+                    if not np.array_equal(box, other_box):
+                        x1_other, y1_other, x2_other, y2_other = other_box[:4]
+                        if (x1_other >= x1 and y1_other >= y1 and x2_other <= x2 and y2_other <= y2):
+                            print("One bounding box is completely within another!")
+                            # Add the contained object to the list
+                            contained_elements.append({
+                                "shape": class_names[int(other_class_id)],  # Assuming class names are same as shapes
+                                "score": score.item() , # Convert the tensor score to a Python float
+                                "bounding_box":(int(x1_other),int(y1_other),int(x2_other),int(y2_other))
+                            })                
     
                 # Replace the cropped area in the mask with white
+                
+                #if len(contained_elements)==0:
                 mask[y1:y2, x1:x2] = 0
     
     # Apply the mask to the original image to make everything except the cropped shapes white
@@ -128,7 +172,7 @@ def get_connections(results,input_image):
         
     # Apply edge detection
     edges = cv2.Canny(gray, 50, 150, apertureSize=3)
-    _, thresholded = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY)
+    _, thresholded = cv2.threshold(gray, 90, 255, cv2.THRESH_BINARY)
     
     # Find contours in the thresholded image
     contours, _ = cv2.findContours(thresholded, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
@@ -152,6 +196,10 @@ def get_connections(results,input_image):
             cX, cY = cnt[0][0]
         # Put the index number at the center of the contour
         cv2.putText(img, str(i), (cX - 10, cY + 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-    
+    cv2.imwrite("testout.jpg",img)
     return find_contour_endpoints(contours)
+
+
+
+
     
