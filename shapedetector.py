@@ -89,7 +89,7 @@ global_enlarged_image = cv2.resize(masked_image, (0, 0), fx=fx, fy=fy)
 global_ocr_result = reader.readtext(global_enlarged_image, rotation_info=[0, 90, 270])
 
 radius= 1
-
+offset = 0
 connection_dict = {}
 
 for i, (_, endpoints) in enumerate(contour_endpoints):
@@ -108,6 +108,7 @@ for result in results:
             # Extract coordinates of the bounding box
             x1, y1, x2, y2 = map(int, box[:4])
             box_boundaries = (x1, y1, x2, y2)
+            enlarged_box_boundaries = (x1-offset, y1-offset, x2+offset, y2+offset)
             # Expanding the bounding box by the threshold
             expanded_x1 = max(0, x1 - expand_threshold)
             expanded_y1 = max(0, y1 - expand_threshold)
@@ -119,32 +120,6 @@ for result in results:
             connections = []
             color = random_color()
             
-            
-            #Post processing the connection detection
-            endpoint_list =[]
-            for i, (_, endpoints) in enumerate(contour_endpoints):
-                for endpoint in endpoints:
-                    # Enlarge the point by a certain radius
-                    enlarged_point = ((np.array(endpoint) - radius).tolist(), 
-                                      (np.array(endpoint) + radius).tolist())
-                    # Check if any part of the enlarged point is within the box
-                    if any(point_in_box(point, box_boundaries) for point in enlarged_point):
-                        
-                        if i  in endpoint_list:
-                            continue
-                        endpoint_list.append(i)
-                        
-                        connection_dict[i].append([box_id,str(len(connections)+1),box_boundaries])
-                        
-                        connections.append(str(len(connections)+1))  # Add the index of the contour endpoint
-                        cv2.circle(original_image, tuple(endpoint), 5, color, -1)
-                        cv2.putText(img, str(i), tuple(endpoint), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
-                        
-                            
-            cv2.rectangle(original_image, (x1, y1), (x2, y2), color, 2)            
-                
-                
-
             contained_elements = []
             # Check if bounding box is within another bounding box
             for other_box, other_class_id in zip(boxes.xyxy, boxes.cls):
@@ -158,7 +133,41 @@ for result in results:
                             "shape": class_names[int(other_class_id)],  # Assuming class names are same as shapes
                             "score": score.item() , # Convert the tensor score to a Python float
                             "bounding_box":(int(x1_other),int(y1_other),int(x2_other),int(y2_other))
-                        })
+                        })            
+            
+            
+            #Post processing the connection detection
+            #if len(contained_elements)==0:
+                
+            
+            endpoint_list =[]
+            contour_endpoints = sorted(contour_endpoints, key=lambda x: x[1][0] if x[1] else (float('inf'), float('inf')))
+            for i, (_, endpoints) in enumerate(contour_endpoints):
+                for endpoint in endpoints:
+                    # Enlarge the point by a certain radius
+                    enlarged_point = ((np.array(endpoint) - radius).tolist(), 
+                                      (np.array(endpoint) + radius).tolist())
+                    # Check if any part of the enlarged point is within the box
+                    
+                    if any(point_in_box(point, enlarged_box_boundaries) for point in enlarged_point):
+                        
+                        if i  in endpoint_list:
+                            continue
+                        endpoint_list.append(i)
+                        
+                        connection_dict[i].append([box_id,str(len(connections)+1),box_boundaries,endpoint])
+                        
+                        connections.append(str(len(connections)+1))  # Add the index of the contour endpoint
+                        cv2.circle(original_image, tuple(endpoint), 5, color, -1)
+                        #cv2.putText(img, str(i), tuple(endpoint), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
+                    #else:
+                        #cv2.circle(original_image, tuple(endpoint), 5, (0,0,0), -1)
+                            
+            cv2.rectangle(original_image, (x1-offset, y1-offset), (x2+offset, y2+offset), color, 2)            
+                
+                
+
+
 
             # Write the ID and recognized name on the original image
 
@@ -197,6 +206,136 @@ for conn in connection_dict:
             
             }
         connection_list.append(current_dict)
+      
+        # 3 connection points
+    elif  len(connection_dict[conn])==3:
+        conn_sorted = sorted(connection_dict[conn], key=lambda x: (x[-1][1], x[-1][0]))
+        current_dict = {"from":{
+            "elementGUID":conn_sorted[0][0],
+            "elementConnectionPoint":conn_sorted[0][1]
+            },
+            "to":{
+                "elementGUID":conn_sorted[1][0],
+                "elementConnectionPoint":conn_sorted[1][1]
+                }
+            
+            }
+        connection_list.append(current_dict)
+        
+        #2nd
+        current_dict = {"from":{
+            "elementGUID":conn_sorted[1][0],
+            "elementConnectionPoint":conn_sorted[1][1]
+            },
+            "to":{
+                "elementGUID":conn_sorted[2][0],
+                "elementConnectionPoint":conn_sorted[2][1]
+                }
+            
+            }
+        connection_list.append(current_dict)        
+        
+        
+     # 6 connection points  
+    elif len(connection_dict[conn])==6:
+        conn_sorted = sorted(connection_dict[conn], key=lambda x: (x[-1][1], x[-1][0]))
+        #define extra points
+        #break
+        if (abs(conn_sorted[0][-1][0]-conn_sorted[1][-1][0])<abs(conn_sorted[-1][-1][0]-conn_sorted[-2][-1][0])):
+            first_pair = sorted(conn_sorted[2:4], key=lambda x: (x[-1][0]))
+            second_pair = sorted(conn_sorted[4:6], key=lambda x: (x[-1][0]))
+            extra_pair  = sorted(conn_sorted[0:2], key=lambda x: (x[-1][0]))
+
+            #extra 1
+            current_dict = {"from":{
+                "elementGUID":extra_pair[0][0],
+                "elementConnectionPoint":first_pair[0][1]
+                },
+                "to":{
+                    "elementGUID":first_pair[1][0],
+                    "elementConnectionPoint":first_pair[1][1]
+                    }
+                
+                }
+            connection_list.append(current_dict) 
+            
+            
+            #extra 2
+            current_dict = {"from":{
+                "elementGUID":extra_pair[1][0],
+                "elementConnectionPoint":first_pair[0][1]
+                },
+                "to":{
+                    "elementGUID":second_pair[1][0],
+                    "elementConnectionPoint":second_pair[1][1]
+                    }
+                
+                }
+            connection_list.append(current_dict)    
+            
+        else:
+            first_pair = sorted(conn_sorted[0:2], key=lambda x: (x[-1][0]))
+            second_pair = sorted(conn_sorted[2:4], key=lambda x: (x[-1][0]))
+            extra_pair  = sorted(conn_sorted[4:6], key=lambda x: (x[-1][1], x[-1][0]), reverse=True)
+
+            #extra 1
+            current_dict = {"from":{
+                "elementGUID":extra_pair[0][0],
+                "elementConnectionPoint":first_pair[0][1]
+                },
+                "to":{
+                    "elementGUID":first_pair[1][0],
+                    "elementConnectionPoint":first_pair[1][1]
+                    }
+                
+                }
+            connection_list.append(current_dict) 
+            
+            
+            #extra 2
+            current_dict = {"from":{
+                "elementGUID":extra_pair[1][0],
+                "elementConnectionPoint":first_pair[0][1]
+                },
+                "to":{
+                    "elementGUID":second_pair[1][0],
+                    "elementConnectionPoint":second_pair[1][1]
+                    }
+                
+                }
+            connection_list.append(current_dict)                
+        
+            
+        #1st pair
+        current_dict = {"from":{
+            "elementGUID":first_pair[0][0],
+            "elementConnectionPoint":first_pair[0][1]
+            },
+            "to":{
+                "elementGUID":first_pair[1][0],
+                "elementConnectionPoint":first_pair[1][1]
+                }
+            
+            }
+        connection_list.append(current_dict)            
+        
+        #2nd pair
+        current_dict = {"from":{
+            "elementGUID":second_pair[0][0],
+            "elementConnectionPoint":first_pair[0][1]
+            },
+            "to":{
+                "elementGUID":second_pair[1][0],
+                "elementConnectionPoint":second_pair[1][1]
+                }
+            
+            }
+        connection_list.append(current_dict)      
+            
+        
+            
+        
+        
 output["Connections"] = connection_list
 output["image_path"] = img_path
 
