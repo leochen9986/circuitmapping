@@ -96,6 +96,8 @@ for i, (_, endpoints) in enumerate(contour_endpoints):
     for endpoint in endpoints:
         connection_dict[i]=[]
 
+
+
 #loop the YOLO detection results for post processing
 for result in results:
     boxes = result.boxes  # Boxes object for bounding box outputs
@@ -154,8 +156,10 @@ for result in results:
                         if i  in endpoint_list:
                             continue
                         endpoint_list.append(i)
-                        
-                        connection_dict[i].append([box_id,str(len(connections)+1),box_boundaries,endpoint])
+                        try:
+                            connection_dict[i].append([box_id,str(len(connections)+1),box_boundaries,endpoint])
+                        except Exception as e:
+                            continue
                         
                         connections.append(str(len(connections)+1))  # Add the index of the contour endpoint
                         cv2.circle(original_image, tuple(endpoint), 5, color, -1)
@@ -182,7 +186,7 @@ for result in results:
             output["Elements"].append(element)
             
             
-            cv2.putText(original_image, f"{box_id}: {element['shape']}", (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+            cv2.putText(original_image, f"{box_id}", (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 
     # Display the image with IDs and names
     #cv2.imshow('Image with IDs and Names', original_image)
